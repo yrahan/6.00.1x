@@ -86,7 +86,8 @@ def getWordScore(word, n):
 
 
 #
-# Problem #2: Make sure you understand how this function works and what it does!
+# Problem #2: Make sure you understand how this function works
+# and what it does!
 #
 def displayHand(hand):
     """
@@ -102,12 +103,15 @@ def displayHand(hand):
     """
     for letter in hand.keys():
         for j in range(hand[letter]):
-             print letter,              # print all on the same line
-    print                               # print an empty line
+            print letter,   # print all on the same line
+    print   # print an empty line
 
 #
-# Problem #2: Make sure you understand how this function works and what it does!
+# Problem #2: Make sure you understand how this function works
+# and what it does!
 #
+
+
 def dealHand(n):
     """
     Returns a random hand containing n lowercase letters.
@@ -120,15 +124,15 @@ def dealHand(n):
     n: int >= 0
     returns: dictionary (string -> int)
     """
-    hand={}
+    hand = {}
     numVowels = n / 3
 
     for i in range(numVowels):
-        x = VOWELS[random.randrange(0,len(VOWELS))]
+        x = VOWELS[random.randrange(0, len(VOWELS))]
         hand[x] = hand.get(x, 0) + 1
 
     for i in range(numVowels, n):
-        x = CONSONANTS[random.randrange(0,len(CONSONANTS))]
+        x = CONSONANTS[random.randrange(0, len(CONSONANTS))]
         hand[x] = hand.get(x, 0) + 1
 
     return hand
@@ -136,6 +140,8 @@ def dealHand(n):
 #
 # Problem #2: Update a hand by removing letters
 #
+
+
 def updateHand(hand, word):
     """
     Assumes that 'hand' has all the letters in word.
@@ -152,8 +158,11 @@ def updateHand(hand, word):
     hand: dictionary (string -> int)
     returns: dictionary (string -> int)
     """
-    # TO DO ... <-- Remove this comment when you code this function
-
+    wordDict = getFrequencyDict(word)
+    updatedHand = hand.copy()
+    for l in updatedHand.keys():
+        updatedHand[l] -= wordDict.get(l, 0)
+    return updatedHand
 
 
 #
