@@ -68,7 +68,35 @@ def compPlayHand(hand, wordList, n):
     wordList: list (string)
     n: integer (HAND_SIZE; i.e., hand size required for additional points)
     """
-    # TO DO ... <-- Remove this comment when you code this function
+    # Keep track of the total score
+    totalScore = 0
+    # As long as there are still letters left in the hand:
+    myHand = hand.copy()
+    word = " "
+    while myHand and sum(myHand.values()) != 0 and word is not None:
+        # Display the hand
+        handDisp = ""
+        for letter in myHand.keys():
+            for j in range(myHand[letter]):
+                handDisp += " " + letter
+        print "Current Hand:", handDisp
+        # Ask user for input
+        word = compChooseWord(hand, wordList, n)
+        # If the input is a single period:
+        totalScore += getWordScore(word, n)
+        print "\"" + word + "\" " + "earned " +\
+            str(getWordScore(word, n)) + " points. Total: " +\
+            str(totalScore) + " points"
+        print
+        # Update the hand
+        myHand = updateHand(myHand, word)
+    # Game is over (user entered a '.' or ran out of letters),
+    # so tell user the total score
+    if sum(myHand.values()) != 0:
+        print "Goodbye! Total score:", totalScore, "points."
+    else:
+        print "Run out of letters. Total score:", totalScore, "points."
+
 
 #
 # Problem #8: Playing a game
