@@ -123,10 +123,11 @@ def applyCoder(text, coder):
     coder: dict with mappings of characters to shifted characters
     returns: text after mapping coder chars to original text
     """
-    for i, l in enumerate(text):
+    textList = list(text)
+    for i, l in enumerate(textList):
         if l in coder.keys():
-            text[i] = coder[l]
-    return text
+            textList[i] = coder[l]
+    return ''.join(textList)
 
 def applyShift(text, shift):
     """
