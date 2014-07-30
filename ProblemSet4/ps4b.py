@@ -73,7 +73,7 @@ def compPlayHand(hand, wordList, n):
     # As long as there are still letters left in the hand:
     myHand = hand.copy()
     word = " "
-    while myHand and sum(myHand.values()) != 0 and word is not None:
+    while word:
         # Display the hand
         handDisp = ""
         for letter in myHand.keys():
@@ -81,7 +81,7 @@ def compPlayHand(hand, wordList, n):
                 handDisp += " " + letter
         print "Current Hand:", handDisp
         # Ask user for input
-        word = compChooseWord(hand, wordList, n)
+        word = compChooseWord(myHand, wordList, n)
         # If the input is a single period:
         totalScore += getWordScore(word, n)
         print "\"" + word + "\" " + "earned " +\
