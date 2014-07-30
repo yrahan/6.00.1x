@@ -114,6 +114,7 @@ def buildCoder(shift):
             result[l] = li[(i + shift) % len(li)]
     return result
 
+
 def applyCoder(text, coder):
     """
     Applies the coder to the text. Returns the encoded text.
@@ -122,8 +123,10 @@ def applyCoder(text, coder):
     coder: dict with mappings of characters to shifted characters
     returns: text after mapping coder chars to original text
     """
-    ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+    for i, l in enumerate(text):
+        if l in coder.keys():
+            text[i] = coder[l]
+    return text
 
 def applyShift(text, shift):
     """
