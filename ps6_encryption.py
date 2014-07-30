@@ -10,10 +10,12 @@ WORDLIST_FILENAME = "words.txt"
 # -----------------------------------
 # Helper code
 # (you don't need to understand this helper code)
+
+
 def loadWords():
     """
     Returns a list of valid words. Words are strings of lowercase letters.
-    
+
     Depending on the size of the word list, this function may
     take a while to finish.
     """
@@ -22,6 +24,7 @@ def loadWords():
     wordList = inFile.read().split()
     print "  ", len(wordList), "words loaded."
     return wordList
+
 
 def isWord(wordList, word):
     """
@@ -32,23 +35,25 @@ def isWord(wordList, word):
     returns True if word is in wordList.
 
     Example:
-    >>> isWord(wordList, 'bat') returns
+    >>> isWord(wordList, 'bat')
     True
-    >>> isWord(wordList, 'asdf') returns
+    >>> isWord(wordList, 'asdf')
     False
     """
     word = word.lower()
     word = word.strip(" !@#$%^&*()-_+={}[]|\\:;'<>?,./\"")
     return word in wordList
 
+
 def randomWord(wordList):
     """
     Returns a random word.
 
-    wordList: list of words  
+    wordList: list of words
     returns: a word from wordList at random
     """
     return random.choice(wordList)
+
 
 def randomString(wordList, n):
     """
@@ -58,6 +63,7 @@ def randomString(wordList, n):
     returns: a string of random words separated by spaces.
     """
     return " ".join([randomWord(wordList) for _ in range(n)])
+
 
 def randomScrambled(wordList, n):
     """
@@ -73,8 +79,10 @@ def randomScrambled(wordList, n):
     implementation of applyShifts!
     """
     s = randomString(wordList, n) + " "
-    shifts = [(i, random.randint(0, 25)) for i in range(len(s)) if s[i-1] == ' ']
+    shifts = [(i, random.randint(0, 25))
+              for i in range(len(s)) if s[i - 1] == ' ']
     return applyShifts(s, shifts)[:-1]
+
 
 def getStoryString():
     """
@@ -99,8 +107,12 @@ def buildCoder(shift):
     shift: 0 <= int < 26
     returns: dict
     """
-    ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+    result = {}
+    lists = [string.ascii_lowercase, string.ascii_uppercase]
+    for li in lists:
+        for i, l in enumerate(li):
+            result[l] = li[(i + shift) % len(li)]
+    return result
 
 def applyCoder(text, coder):
     """
