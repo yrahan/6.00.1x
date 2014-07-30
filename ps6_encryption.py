@@ -143,6 +143,7 @@ def applyShift(text, shift):
      """
     return applyCoder(text, buildCoder(shift))
 
+
 #
 # Problem 2: Decryption
 #
@@ -153,8 +154,17 @@ def findBestShift(wordList, text):
     text: string
     returns: 0 <= int < 26
     """
-    ### TODO
-    return "Not yet implemented." # Remove this comment when you code the function
+    bestScore = 0
+    bestShift = 0
+    for shift in range(1, 26):
+        unshift = 26 - shift
+        decryptedText = applyShift(text, unshift)
+        words = decryptedText.split()
+        score = len([word for word in words if isWord(wordList, word)])
+        if score > bestScore:
+            bestShift = unshift
+    return bestShift
+
 
 def decryptStory():
     """
