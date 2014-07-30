@@ -129,6 +129,7 @@ def applyCoder(text, coder):
             textList[i] = coder[l]
     return ''.join(textList)
 
+
 def applyShift(text, shift):
     """
     Given a text, returns a new text Caesar shifted by the given shift
@@ -139,10 +140,8 @@ def applyShift(text, shift):
     text: string to apply the shift to
     shift: amount to shift the text (0 <= int < 26)
     returns: text after being shifted by specified amount.
-    """
-    ### TODO.
-    ### HINT: This is a wrapper function.
-    return "Not yet implemented." # Remove this comment when you code the function
+     """
+    return applyCoder(text, buildCoder(shift))
 
 #
 # Problem 2: Decryption
