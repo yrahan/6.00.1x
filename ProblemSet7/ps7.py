@@ -48,6 +48,32 @@ def process(url):
 
 # TODO: NewsStory
 
+
+class NewsStory():
+    def __init__(self, guid, title, subject, summary, link):
+        self.guid = guid
+        self.title = title
+        self.subject = subject
+        self.summary = summary
+        self.link = link
+
+    def getGuid(self):
+        return self.guid
+
+    def getTitle(self):
+        return self.title
+
+    def getSubject(self):
+        return self.subject
+
+    def getSummary(self):
+        return self.summary
+
+    def getLink(self):
+        return self.link
+
+
+
 #======================
 # Part 2
 # Triggers
@@ -97,7 +123,7 @@ def filterStories(stories, triggerlist):
     Returns: a list of only the stories for which a trigger in triggerlist fires.
     """
     # TODO: Problem 10
-    # This is a placeholder (we're just returning all the stories, with no filtering) 
+    # This is a placeholder (we're just returning all the stories, with no filtering)
     return stories
 
 #======================
@@ -161,7 +187,7 @@ def readTriggerConfig(filename):
                 triggers.append(triggerMap[name])
 
     return triggers
-    
+
 import thread
 
 SLEEPTIME = 60 #seconds -- how often we poll
@@ -177,7 +203,7 @@ def main_thread(master):
         t3 = PhraseTrigger("Election")
         t4 = OrTrigger(t2, t3)
         triggerlist = [t1, t4]
-        
+
         # TODO: Problem 11
         # After implementing makeTrigger, uncomment the line below:
         # triggerlist = readTriggerConfig("triggers.txt")
@@ -187,7 +213,7 @@ def main_thread(master):
         frame.pack(side=BOTTOM)
         scrollbar = Scrollbar(master)
         scrollbar.pack(side=RIGHT,fill=Y)
-        
+
         t = "Google & Yahoo Top News"
         title = StringVar()
         title.set(t)
