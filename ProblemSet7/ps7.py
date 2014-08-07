@@ -2,6 +2,7 @@
 # RSS Feed Filter
 
 import feedparser
+import re
 import string
 import time
 from project_util import translate_html
@@ -46,9 +47,6 @@ def process(url):
 
 # Problem 1
 
-# TODO: NewsStory
-
-
 class NewsStory():
     def __init__(self, guid, title, subject, summary, link):
         self.guid = guid
@@ -73,7 +71,6 @@ class NewsStory():
         return self.link
 
 
-
 #======================
 # Part 2
 # Triggers
@@ -90,11 +87,32 @@ class Trigger(object):
 # Whole Word Triggers
 # Problems 2-5
 
-# TODO: WordTrigger
 
-# TODO: TitleTrigger
-# TODO: SubjectTrigger
-# TODO: SummaryTrigger
+class WordTrigger(Trigger):
+
+    def __init__(self, word):
+        self.word = word
+
+    def isWordIn(self, text):
+        return self.word.lower() in re.findall(r"[\w']+", text.lower())
+
+
+class TitleTrigger(WordTrigger):
+
+    def evaluate(self, story):
+        return self.isWordIn(story.getTitle())
+
+
+class SubjectTrigger(WordTrigger):
+
+    def evaluate(self, story):
+        return self.isWordIn(story.getSubject())
+
+
+class SummaryTrigger(WordTrigger):
+
+    def evaluate(self, story):
+        return self.isWordIn(story.getSummary())
 
 
 # Composite Triggers
