@@ -185,6 +185,7 @@ def filterStories(stories, triggerlist):
 # User-Specified Triggers
 #======================
 
+
 def makeTrigger(triggerMap, triggerType, params, name):
     """
     Takes in a map of names to trigger instance, the type of trigger to make,
@@ -193,14 +194,40 @@ def makeTrigger(triggerMap, triggerType, params, name):
 
     triggerMap: dictionary with names as keys (strings) and triggers as values
     triggerType: string indicating the type of trigger to make (ex: "TITLE")
-    params: list of strings with the inputs to the trigger constructor (ex: ["world"])
+    params: list of strings with the inputs to the trigger constructor
+    (ex: ["world"])
     name: a string representing the name of the new trigger (ex: "t1")
 
     Modifies triggerMap, adding a new key-value pair for this trigger.
 
     Returns a new instance of a trigger (ex: TitleTrigger, AndTrigger).
     """
-    # TODO: Problem 11
+
+    def createWord(subc, params):
+        return subc(''.join(params))
+
+    def createPhrase(subc, params):
+        return subc(' '.join(params))
+
+    def lookup(subc, params):
+        return subc(triggerMap[params[0]])
+
+    def applyTwoParams(subc, params):
+        return subc(triggerMap[params[0]], triggerMap[params[1]])
+
+    trigger_dict = {
+        'TITLE': (createWord, TitleTrigger),
+        'SUBJECT': (createWord, SubjectTrigger),
+        'SUMMARY': (createWord, SummaryTrigger),
+        'NOT': (lookup, NotTrigger),
+        'AND': (applyTwoParams, AndTrigger),
+        'OR': (applyTwoParams, OrTrigger),
+        'PHRASE': (createPhrase, PhraseTrigger)}
+
+    constructor, subclass = trigger_dict[triggerType]
+
+    triggerMap[name] = constructor(subclass, params)
+    return triggerMap[name]
 
 
 def readTriggerConfig(filename):
@@ -214,7 +241,7 @@ def readTriggerConfig(filename):
     # to read in the file and eliminate
     # blank lines and comments
     triggerfile = open(filename, "r")
-    all = [ line.rstrip() for line in triggerfile.readlines() ]
+    all = [line.rstrip() for line in triggerfile.readlines()]
     lines = []
     for line in all:
         if len(line) == 0 or line[0] == '#':
@@ -244,7 +271,7 @@ def readTriggerConfig(filename):
 
 import thread
 
-SLEEPTIME = 60 #seconds -- how often we poll
+SLEEPTIME = 60  # seconds -- how often we poll
 
 
 def main_thread(master):
@@ -266,14 +293,15 @@ def main_thread(master):
         frame = Frame(master)
         frame.pack(side=BOTTOM)
         scrollbar = Scrollbar(master)
-        scrollbar.pack(side=RIGHT,fill=Y)
+        scrollbar.pack(side=RIGHT, fill=Y)
 
         t = "Google & Yahoo Top News"
         title = StringVar()
         title.set(t)
         ttl = Label(master, textvariable=title, font=("Helvetica", 18))
         ttl.pack(side=TOP)
-        cont = Text(master, font=("Helvetica",14), yscrollcommand=scrollbar.set)
+        cont = Text(master, font=("Helvetica", 14),
+                    yscrollcommand=scrollbar.set)
         cont.pack(side=BOTTOM)
         cont.tag_config("title", justify='center')
         button = Button(frame, text="Exit", command=root.destroy)
@@ -281,12 +309,15 @@ def main_thread(master):
 
         # Gather stories
         guidShown = []
+
         def get_cont(newstory):
             if newstory.getGuid() not in guidShown:
-                cont.insert(END, newstory.getTitle()+"\n", "title")
-                cont.insert(END, "\n---------------------------------------------------------------\n", "title")
+                cont.insert(END, newstory.getTitle() + "\n", "title")
+                cont.insert(END, "\n------------------------------"
+                            "---------------------------------\n", "title")
                 cont.insert(END, newstory.getSummary())
-                cont.insert(END, "\n*********************************************************************\n", "title")
+                cont.insert(END, "\n**************************************"
+                            "*******************************\n", "title")
                 guidShown.append(newstory.getGuid())
 
         while True:
@@ -304,7 +335,6 @@ def main_thread(master):
             map(get_cont, stories)
             scrollbar.config(command=cont.yview)
 
-
             print "Sleeping..."
             time.sleep(SLEEPTIME)
 
@@ -318,4 +348,3 @@ if __name__ == '__main__':
     root.title("Some RSS parser")
     thread.start_new_thread(main_thread, (root,))
     root.mainloop()
-
