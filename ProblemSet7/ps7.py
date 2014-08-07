@@ -161,7 +161,6 @@ class PhraseTrigger(Trigger):
                                story.getSummary() + story.getSubject())
 
 
-
 #======================
 # Part 3
 # Filtering
@@ -171,11 +170,15 @@ def filterStories(stories, triggerlist):
     """
     Takes in a list of NewsStory instances.
 
-    Returns: a list of only the stories for which a trigger in triggerlist fires.
+    Returns: a list of only the stories for which
+    a trigger in triggerlist fires.
     """
-    # TODO: Problem 10
-    # This is a placeholder (we're just returning all the stories, with no filtering)
-    return stories
+
+    storyList = []
+    for story in stories:
+        if True in [T.evaluate(story) for T in triggerlist]:
+            storyList.append(story)
+    return storyList
 
 #======================
 # Part 4
