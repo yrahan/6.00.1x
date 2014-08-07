@@ -47,6 +47,7 @@ def process(url):
 
 # Problem 1
 
+
 class NewsStory():
     def __init__(self, guid, title, subject, summary, link):
         self.guid = guid
@@ -111,7 +112,7 @@ class SubjectTrigger(WordTrigger):
 
 class SummaryTrigger(WordTrigger):
 
-    def evaluate(self, story):
+    def evaluate(self,  story):
         return self.isWordIn(story.getSummary())
 
 
@@ -149,7 +150,16 @@ class OrTrigger(Trigger):
 # Phrase Trigger
 # Question 9
 
-# TODO: PhraseTrigger
+
+class PhraseTrigger(Trigger):
+
+    def __init__(self, phrase):
+        self.phrase = phrase
+
+    def evaluate(self, story):
+        return self.phrase in (story.getTitle() +
+                               story.getSummary() + story.getSubject())
+
 
 
 #======================
